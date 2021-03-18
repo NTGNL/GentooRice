@@ -1,4 +1,3 @@
-
 """ Automatically create needed files and folders on first run (*nix only) {{{
     call system('mkdir -p $HOME/.vim/{autoload,bundle,swap,undo}')
     if !filereadable($HOME.'/.vimrc.plugins') | call system('touch $HOME/.vimrc.plugins') | endif
@@ -75,8 +74,7 @@ NeoBundleCheck
     "autocomplete syntax
     "Plug 'valloric/youcompleteme'
 
-    "icons
-    Plug 'ryanoasis/vim-devicons'
+    Plug 'mkitt/tabline'
 
     "color for files in nerdtree
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -444,7 +442,7 @@ NeoBundleCheck
             \  $HOME . '/.config/i3/config',  $HOME . '/.bashrc'
             \ ]
         let g:startify_custom_header = [
-            \ '   http://github.com/xelvicon',
+            \ '   http://github.com/ntgnl',
             \ ''
             \ ]
         let g:startify_files_number = 5
@@ -555,6 +553,10 @@ autocmd FileType c inoremap <Leader>ife if()<CR>{<CR><CR>}<CR>else<CR>{<CR><CR>}
 "for loop
 autocmd FileType c inoremap <Leader>for for(init;<Space>condition;<Space>increment)<CR>{<CR><CR>}
 
+"start nerdtree
+autocmd VimEnter * exe 'NERDTree' | wincmd l
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 " Remove <Tab> from the list of keys mapped by YCM.
 let g:ycm_key_list_select_completion = ['<Down>']
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "ᐅ"
@@ -625,20 +627,17 @@ let g:airline_theme='badwolf'
 "colorscheme neodark
 "colorscheme kolor
 "colorscheme gotham
-colorscheme jellybeans
+"colorscheme jellybeans
 "volorscheme desertEx
-"colorscheme skittles_berry
-"colorscheme skittles_dark
-"colorscheme codeblocks_dark
 "colorscheme elflord
 
-let g:gruvbox_contrast_dakr ='Hard'
-
-set encoding=UTF-8
+"colorscheme 
+"let g:gruvbox_contrast_dark ='Hard'
+"colorscheme gruvbox
 
 set cursorline
+set number
 hi CursorLine term=bold cterm=bold guibg=Grey40
 
 let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#whitespace#enabled = 0
-

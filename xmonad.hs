@@ -92,7 +92,7 @@ myTerminal :: String
 myTerminal = "urxvt"   -- Sets default terminal
 
 myBrowser :: String
-myBrowser = "qutebrowser "               -- Sets qutebrowser as browser for tree select
+myBrowser = "firefox "               -- Sets default browser for tree select
 -- myBrowser = myTerminal ++ " -e lynx " -- Sets lynx as browser for tree select
 
 myEditor :: String
@@ -119,7 +119,7 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 myStartupHook :: X ()
 myStartupHook = do
           spawn "nitrogen --restore &"
-          spawn "comption &"
+          spawn "compton &"
           spawn "pulseaudio &"
           spawn "urxvtd --quiet --opendisplay --fork &"
           spawn "xclip &"
@@ -163,7 +163,7 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
 -- TreeSelect uses all three values in the 3-tuples but GridSelect only needs first
 -- two values in each list (see myAppGrid, myBookmarkGrid and myConfigGrid below).
 myApplications :: [(String, String, String)]
-myApplications = [ ("Qutebrowser", "qutebrowser", "Open source web browser")
+myApplications = [ ("Firefox", "firefox", "Open source web browser")
                  , ("Thunderbrid", "thunderbird", "Email client that is attractive")
                  , ("Gimp", "gimp", "Open source alternative to Photoshop")
                  , ("Surf Browser", "surf suckless.org", "Suckless surf web browser")
@@ -371,24 +371,18 @@ dtXPKeymap = M.fromList $
 -- Xmonad has several search engines available to use located in
 -- XMonad.Actions.Search. Additionally, you can add other search engines
 -- such as those listed below.
-ebay, urban :: S.SearchEngine
+ebay, url :: S.SearchEngine
 
 ebay     = S.searchEngine "ebay" "https://www.ebay.com/sch/i.html?_nkw="
-urban    = S.searchEngine "urban" "https://www.urbandictionary.com/define.php?term="
+url    = S.searchEngine "url" ""         
 
--- This is the list of search engines that I want to use. Some are from
--- XMonad.Actions.Search, and some are the ones that I added above.
 searchList :: [(String, S.SearchEngine)]
 searchList = [ ("d", S.duckduckgo)
              , ("e", ebay)
              , ("g", S.google)
-             , ("h", S.hoogle)
              , ("i", S.images)
-             , ("s", S.stackage)
-             , ("t", S.thesaurus)
-             , ("v", S.vocabulary)
              , ("b", S.wayback)
-             , ("u", urban)
+             , ("s", url)
              , ("w", S.wikipedia)
              , ("y", S.youtube)
              , ("z", S.amazon)
@@ -412,11 +406,12 @@ xmobarEscape = concatMap doubleLts
 myWorkspaces :: [String]
 myWorkspaces = clickable . (map xmobarEscape)
                -- $ ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-               $ ["dev", "web", "sys", "vim", "srv", "cht", "mus", "vm", "gfx"]
+               $ ["1", "2", "3", "4", "dev", "sys", "mus", "vim", "gfx"]
   where
         clickable l = [ "<action=xdotool key super+" ++ show (n) ++ "> " ++ ws ++ " </action>" |
                       (i,ws) <- zip [1..9] l,
                       let n = i ]
+
 
 ------------------------------------------------------------------------
 -- MANAGEHOOK
@@ -432,10 +427,9 @@ myManageHook = composeAll
      -- using 'doShift ( myWorkspaces !! 7)' sends program to workspace 8!
      -- I'm doing it this way because otherwise I would have to write out
      -- the full name of my workspaces.
-     [ className =? "Gimp"    --> doShift ( myWorkspaces !! 8 )
-     , className =? "Gimp"    --> doFloat
+     [ className =? "Gimp"    --> doFloat
      , className =? "pavucontrol"   --> doFloat
-     , className =? "qutebrowser" --> doShift (myWorkspaces !! 1)
+     , className =? "nitrogen"   --> doFloat
      , title =? "pavucontrol"    --> doFloat
      , title =? "Oracle VM VirtualBox Manager"     --> doFloat
      , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 7 )
@@ -660,9 +654,10 @@ myKeys =
         -- , ("C-e a", spawn "emacsclient -c -a '' --eval '(emms)' --eval '(emms-play-directory-tree \"~/Music/Non-Classical/70s-80s/\")'")
 
     --- My Applications (Super+Alt+Key)
-        , ("M-M1-r", spawn (myTerminal ++ " -e ranger"))
-        , ("M-M1-c", spawn "qutebrowser")
-        , ("M-M1-v", spawn (myTerminal ++ " -e vim"))
+        , ("M-M1-r", spawn ("xfce4-terminal" ++ " -e ranger"))
+        , ("M-M1-q", spawn "qutebrowser")
+        , ("M-M1-f", spawn "firefox")
+        , ("M-M1-v", spawn ("xfce4-terminal" ++ " -e vim"))
         , ("M-M1-t", spawn (myTerminal ++ " -e nmtui"))
         , ("M-M1-n", spawn "thunar")
 
@@ -673,8 +668,8 @@ myKeys =
         , ("<XF86AudioMute>",   spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
         , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
         , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
-        , ("<XF86HomePage>", spawn "qutebrowser")
-        , ("<XF86Search>", safeSpawn "qutebrowser" ["https://www.duckduckgo.com/"])
+        , ("<XF86HomePage>", spawn "firefox")
+        , ("<XF86Search>", safeSpawn "firefox" ["https://www.duckduckgo.com/"])
         , ("<XF86Mail>", runOrRaise "thunderbird" (resource =? "thunderbird"))
         , ("<XF86Calculator>", runOrRaise "gcalctool" (resource =? "gcalctool"))
         , ("<XF86Eject>", spawn "toggleeject")
