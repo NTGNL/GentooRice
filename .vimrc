@@ -188,7 +188,6 @@ NeoBundleCheck
     set linebreak                                   " don't cut words on wrap
     set listchars=tab:>\                            " > to highlight <Tab>
     set list                                        " displaying listchars
-    set mouse=                                      " disable mouse
     set noshowmode                                  " hide mode cmd line
     set noexrc                                      " don't use other .*rc(s)
     set nostartofline                               " keep cursor column pos
@@ -198,7 +197,6 @@ NeoBundleCheck
     set splitbelow                                  " splits go below w/focus
     set splitright                                  " vsplits go right w/focus
     set ttyfast                                     " for faster redraws etc
-    set ttymouse=xterm2                             " experimental
     """ Folding {{{
         set foldcolumn=0                            " hide folding column
         set foldmethod=indent                       " folds using indent
@@ -633,7 +631,8 @@ let g:airline_theme='badwolf'
 
 "colorscheme 
 "let g:gruvbox_contrast_dark ='Hard'
-"colorscheme gruvbox
+set background=dark
+colorscheme gruvbox
 
 set cursorline
 set number

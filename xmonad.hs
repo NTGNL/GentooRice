@@ -119,7 +119,7 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 myStartupHook :: X ()
 myStartupHook = do
           spawn "nitrogen --restore &"
-          spawn "compton &"
+          spawn "dunst &"
           spawn "pulseaudio &"
           spawn "urxvtd --quiet --opendisplay --fork &"
           spawn "xclip &"
@@ -659,6 +659,7 @@ myKeys =
         , ("M-M1-f", spawn "firefox")
         , ("M-M1-v", spawn ("xfce4-terminal" ++ " -e vim"))
         , ("M-M1-t", spawn (myTerminal ++ " -e nmtui"))
+        , ("M-M1-d", spawn (myTerminal ++ " -e nnn"))
         , ("M-M1-n", spawn "thunar")
 
     -- Multimedia Keys
